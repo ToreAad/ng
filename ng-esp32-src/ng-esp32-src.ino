@@ -6,7 +6,11 @@ const char* password = "sowt0928";
 const char* url = "https://webhook.site/fa9e562d-4823-4a62-9e1a-d053d1bce90d";
 
 unsigned long previousMillis = 0;
-const long interval = 30000; // 30 seconds
+const long interval = 2000; // 30 seconds
+const int tiltSensorPin = 15; // GPIO4
+int tiltSensorState = 0;
+int counter = 0;
+
 
 void setup() {
   Serial.begin(115200);
@@ -24,15 +28,27 @@ void setup() {
   Serial.println(ssid);
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+  pinMode(tiltSensorPin, INPUT); // Set the tilt sensor pin as an input
 }
 
 void loop() {
   unsigned long currentMillis = millis();
 
-  if (currentMillis - previousMillis >= interval) {
-    previousMillis = currentMillis;
-    performGetRequest();
+
+
+  tiltSensorState = digitalRead(tiltSensorPin); // Read the tilt sensor's output
+
+  if (tiltSensorState == HIGH) {
+    Serial.printf("%d - Tilt detected!\n", counter);
+      if (currentMillis - previousMillis >= interval) {
+        previousMillis = currentMillis;
+        performGetRequest();
+      }
+  } else {
+    Serial.printf("%d - No tilt detected.\n", counter);
   }
+  counter++;
+  delay(500); // Add a small delay to avoid flooding the serial monitor with messages
 }
 
 void performGetRequest() {
