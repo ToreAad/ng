@@ -10,7 +10,7 @@ const long interval = 2000; // 30 seconds
 const int tiltSensorPin = 15; // GPIO4
 int tiltSensorState = 0;
 int counter = 0;
-
+int previousTiltSensorState = tiltSensorState;
 
 void setup() {
   Serial.begin(115200);
@@ -32,19 +32,18 @@ void setup() {
 }
 
 void loop() {
-  unsigned long currentMillis = millis();
-
-
-
+  // unsigned long currentMillis = millis();
   tiltSensorState = digitalRead(tiltSensorPin); // Read the tilt sensor's output
 
   if (tiltSensorState == HIGH) {
     Serial.printf("%d - Tilt detected!\n", counter);
-      if (currentMillis - previousMillis >= interval) {
-        previousMillis = currentMillis;
+      if (previousTiltSensorState == LOW) {
+        // previousMillis = currentMillis;
         performGetRequest();
       }
+      previousTiltSensorState = HIGH;
   } else {
+    previousTiltSensorState = LOW;
     Serial.printf("%d - No tilt detected.\n", counter);
   }
   counter++;

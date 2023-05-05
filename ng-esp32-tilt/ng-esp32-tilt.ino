@@ -2,6 +2,7 @@ const int tiltSensorPin = 15; // GPIO4
 int tiltSensorState = 0;
 int counter = 0;
 
+
 void setup() {
   // ...
   Serial.begin(115200);
