@@ -1,5 +1,6 @@
 const int tiltSensorPin = 15; // GPIO4
 int tiltSensorState = 0;
+int counter = 0;
 
 void setup() {
   // ...
@@ -8,16 +9,16 @@ void setup() {
   Serial.println("Done setup");
 }
 
+
 void loop() {
   // ...
-  Serial.println("Reading!");
   tiltSensorState = digitalRead(tiltSensorPin); // Read the tilt sensor's output
 
   if (tiltSensorState == HIGH) {
-    Serial.println("Tilt detected!");
+    Serial.printf("%d - Tilt detected!\n", counter);
   } else {
-    Serial.println("No tilt detected.");
+    Serial.printf("%d - No tilt detected.\n", counter);
   }
-
+  counter++;
   delay(500); // Add a small delay to avoid flooding the serial monitor with messages
 }
