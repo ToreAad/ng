@@ -1,9 +1,10 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include "arduino_secrets.h"
 
-const char* ssid = "Galaxy S20 FE 5GDAAD";
-const char* password = "sowt0928";
-const char* url = "https://webhook.site/fa9e562d-4823-4a62-9e1a-d053d1bce90d";
+const char* ssid = SECRET_SSID;
+const char* password = SECRET_PASS;
+const char* url = SECRET_URL;
 
 unsigned long previousMillis = 0;
 const long interval = 2000; // 30 seconds

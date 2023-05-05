@@ -1,0 +1,7 @@
+
+.env
+.venv/
+data/
+ng-esp32-audio/arduino_secrets.h
+
+ng-esp32-src/arduino_secrets.h
