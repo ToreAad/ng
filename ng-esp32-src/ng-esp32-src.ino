@@ -1,7 +1,9 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-
+const char* ssid = "Galaxy S20 FE 5GDAAD";
+const char* password = "sowt0928";
+const char* url = "https://webhook.site/fa9e562d-4823-4a62-9e1a-d053d1bce90d";
 
 unsigned long previousMillis = 0;
 const long interval = 30000; // 30 seconds
