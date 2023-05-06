@@ -1,6 +1,3 @@
-import dotenv
-dotenv.load_dotenv()
-
 import wave
 import struct
 import openai
