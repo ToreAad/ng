@@ -11,7 +11,7 @@ const char* url = SECRET_URL;
 
 #define BUTTON_PIN 0       // Built-in button pin
 #define MIC_ANALOG_PIN 36  // A0 pin of the microphone, connected to GPIO36 (VP)
-#define MIC_DIGITAL_PIN 15 // D0 pin of the microphone
+#define MIC_DIGITAL_PIN 13 // D0 pin of the microphone
 
 const int sampleRate = 8000; // 8kHz sample rate
 const int bufferSize = 5 * sampleRate;
