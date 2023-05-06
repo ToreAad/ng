@@ -56,6 +56,31 @@ def body_to_json(body):
 	transcript = transcribe_audio(audio_file)
 	return get_json_from_transcript(transcript)
 
+import http.client
+import json
+def post_new_body(new_body):
+    body = json.dumps(new_body)
+
+    headers = {'Content-Type': 'application/json'}
+
+    # Parsing the URL
+    url = "https://prod-25.norwayeast.logic.azure.com/workflows/7fe84fbbe3104e0daa66a8c82689dfdc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=CbWeA6_jcbOEAzck45AjtsoQDI_r6PZWb4VuFESvy4U"
+    parsed_url = http.client.urlsplit(url)
+
+    # Creating an HTTPS connection
+    conn = http.client.HTTPSConnection(parsed_url.hostname)
+
+    # Sending a POST request
+    conn.request("POST", parsed_url.path + "?" + parsed_url.query, body=body, headers=headers)
+
+    # Receiving the response
+    res = conn.getresponse()
+
+    print(res.status, res.reason)
+    print(res.read().decode())
+
+    # Closing the connection
+    conn.close()
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
 	logging.info('Python HTTP trigger function processed a request.')
@@ -70,7 +95,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 					new_body = {"name": name, "item": item}
 					# post the new body to "https://prod-25.norwayeast.logic.azure.com/workflows/7fe84fbbe3104e0daa66a8c82689dfdc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=CbWeA6_jcbOEAzck45AjtsoQDI_r6PZWb4VuFESvy4U"
 					# using the requests library
-					requests.post("https://prod-25.norwayeast.logic.azure.com/workflows/7fe84fbbe3104e0daa66a8c82689dfdc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=CbWeA6_jcbOEAzck45AjtsoQDI_r6PZWb4VuFESvy4U", json=new_body)
+					# requests.post("https://prod-25.norwayeast.logic.azure.com/workflows/7fe84fbbe3104e0daa66a8c82689dfdc/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=CbWeA6_jcbOEAzck45AjtsoQDI_r6PZWb4VuFESvy4U", json=new_body)
+					post_new_body(new_body)
 	except Exception as e:
 			return func.HttpResponse( body="Error: " + str(e), status_code=400 )
 	return func.HttpResponse( body=body, status_code=200 )
